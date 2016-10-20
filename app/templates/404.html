@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Error 404</title>
+    <link rel="stylesheet" href="{{url_for('.static', filename='styles/main.css')}}">
+    <link rel="shortcut icon" href="{{url_for('.static', filename='images/favicon.ico')}}">
+</head>
+<body>
+    {% block navbar %}
+    <div class="navbar navbar-fixed-top">
+      <!-- ... -->
+    </div>
+    {% endblock %}
+    {% block content %}
+        <h1>Erro 404, Sorry Page Not Found</h1>
+    {% endblock %}
+</body>
+</html>

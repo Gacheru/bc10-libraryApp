@@ -1,0 +1,107 @@
+<!dOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Welcome</title>
+    <!--Imports css files-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/library.css')}}">
+    <!--Imports favicon file-->
+    <link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+    <!-- Custom styles for this template -->
+</head>
+<body>
+    <div class="container">
+    <div id="loginbox" style="margin-top:50px;" class="loginbox">
+        <div class="panel panel-info" >
+            <div class="panel-heading">
+                <div class="panel-title">Sign Up / Register</div>
+                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+            </div>
+            <div style="padding-top:30px" class="panel-body" >
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                    <form id="signupform" class="form-horizontal" method="POST" role="form">
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                           <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                           <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                            <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email Address">
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-duplicate"></i></span>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm Password">
+                        </div>
+                        <div class="input-group">
+                          <div class="checkbox">
+                            <label>
+                              <input id="login-remember" type="checkbox" name="remember" value="1"> I accept the <a href="/tos/">Terms Of Service</a> and the <a href="/tos/">Privarcy Notice</a> (Last updated Oct 20 2016)
+                            </label>
+                          </div>
+                        </div>
+
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Buttons -->
+                            <div class="col-xs-12 col-md-6"><button id="Register" name="Register" class="btn btn-success btn-block btn-lg">Register</button></div>
+                            <div class="col-xs-12 col-md-6"><a href="{{url_for('index')}}" class="btn btn-primary btn-block btn-lg">Sign In</a></div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-muted">
+      <div class="container center">
+        <p style="text-align:center;">Library &copy;2016 created by Evans Gacheru</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script>
+        $(function(){
+            $('#Register').click(function() {
+                $.ajax({
+                    url: '/signup/',
+                    data: $('#signupform').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+         });
+    </script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+  </body>
+</html>
+
+
+
+
