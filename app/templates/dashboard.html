@@ -1,4 +1,56 @@
 {% extends "base.html" %}
+{% block container %}
+<div class="addbookbox" id="addbookbox" style="display:none;">
+    <div style="padding-top:30px" class="panel-body" >
+            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                <form id="addbookform" class="form-horizontal" method="POST" role="form">
 
+                    <div style="margin-bottom: 25px" class="input-group">
+                       <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                       <input type="text" name="title" id="title" class="form-control" placeholder="Book Title">
+                    </div>
 
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input type="text" name="author" id="author" class="form-control" placeholder="Book Author">
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                        <select name="category" id="category" class="form-control">
+                            <option>--Select Category--</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Crime">Crime</option>
+                            <option value="Romance">Romance</option>
+                            <option value="SciFi">SciFi</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Self Help/Motivation">Self Help/Motivation</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                        <input id="quantity" type="text" class="form-control" name="quantity" placeholder="Number of copies e.g 10">
+                    </div>
+
+                    <div style="margin-bottom: 5px" class="form-group">
+                        <label style="margin-left: 25px"><i class="glyphicon glyphicon-pencil"></i>
+                        Book Prologue</label>
+                    </div>
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <textarea type="text" cols="200" rows="5" name="prologue" id="prologue" class="form-control"></textarea>
+                    </div>
+
+                    <div style="margin-top:5px" class="form-group">
+                        <!-- Submit Button -->
+                        <div class="col-xs-3 col-md-3" style="text-align:center;">
+                            <button id="addbookbtn" name="addbookbtn" class="btn btn-primary btn-block btn-sm">Add Book</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+
+</div>
+{% endblock %}
 
