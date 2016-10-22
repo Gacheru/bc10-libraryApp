@@ -1,6 +1,6 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from app import db
+from app.mod_auth.controllers import db
 
 
 # Define a base model for other database tables to inherit
@@ -44,7 +44,7 @@ class User(Base):
         return False
 
     def get_id(self):
-        return unicode(self.id)
+        return int(self.id)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -57,23 +57,20 @@ class Books(Base):
     title = db.Column(db.String(128), nullable=False, unique=True)
     prologue = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(128), nullable=False, unique=True)
-    img_url = db.Column(db.String(128), nullable=False)
     category = db.Column(db.String(128), nullable=False)
     issue_status = db.Column(db.SmallInteger, nullable=True)
     quantity = db.Column(db.SmallInteger, nullable=True)
 
     # New instance instantiation procedure
-    def __init__(self, title, prologue, author, img_url, category, issue_status, quantity):
+    def __init__(self, title, prologue, author, category,  quantity):
         self.title = title
         self.prologue = prologue
         self.author = author
-        self.img_url = img_url
         self.category = category
-        self.issue_status = issue_status
         self.quantity = quantity
 
     def get_id(self):
-        return unicode(self.id)
+        return int(self.id)
 
     def __repr__(self):
         return '<Book %r>' % self.title
@@ -96,4 +93,4 @@ class Issue(Base):
         self.issue_status = issue_status
 
     def get_id(self):
-        return unicode(self.id)
+        return int(self.id)
