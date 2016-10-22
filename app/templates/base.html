@@ -1,7 +1,7 @@
 <!dOCTYPE html>
 <html lang="en">
 
-<body>
+<body onload="Users()">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Library</title>
@@ -10,7 +10,7 @@
         <link href="{{url_for('static', filename='css/dashboard.css')}}" rel="stylesheet">
         <link href="{{url_for('static', filename='css/addform.css')}}" rel="stylesheet">
         <!--Imports favicon file-->
-        <link rel="shortcut icon" href="{{url_for('.static', filename='images/favicon.ico')}}">
+        <link rel="shortcut icon" href="{{url_for('static', filename='images/favicon.ico')}}">
     </head>
 
     <nav class="navbar navbar-default navbar-static-top">
@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">
-                    Welcome {{id,role}}
+                    Welcome
                 </a>
             </div>
 
@@ -39,7 +39,7 @@
                         Account
                         <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                            <li><a href="{{url_for('index')}}"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -59,8 +59,9 @@
                         <div class="side-menu-container">
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="#"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-book"></span> Available Books</a></li>
-                                <li><a href="#"><span class="glyphicon glyphicon-book"></span> Borrowed Books</a></li>
+                                <li><a id="myBooks"><span class="glyphicon glyphicon-book"></span> Available Books</a></li>
+                                <li><a href=""><span class="glyphicon glyphicon-book"></span> Borrowed Books</a></li>
+                                <li><a id="myUsers"><span class="glyphicon glyphicon-user"></span> User Accounts</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </nav>
@@ -71,73 +72,81 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Books
-                    <div style="padding:8px;" class="navbar-right" >
-                        <a href="" data-toggle="modal" data-target="#addbook-modal"><i class="glyphicon glyphicon-plus"></i>Add Book</a>
+                    <div style="padding-bottom:8px;" class="navbar-right" >
+                        <button id="addbtn"><a><i class="glyphicon glyphicon-plus"></i></a>Add Book</button>
                     </div>
                 </div>
                 <div class="panel-body">
-                    {% block body %}{% endblock%}
+                    {% block container %}
+                    {% endblock%}
+                    {% if books %}
+                    <table id="books_table"  width="100%" cellpadding="4px" class="table-bordered">
+                        <thead>
+                            <th style="padding:4px;text-align:center;">No</th>
+                            <th style="padding:4px;text-align:center;">Title</th>
+                            <th style="padding:4px;text-align:center;">Author</th>
+                            <th style="padding:4px;text-align:center;">Prologue</th>
+                            <th style="padding:4px;text-align:center;">Category</th>
+                        </thead>
+                        <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td style="padding:4px">
+                                {{book.id}}
+                            </td>
+                            <td style="padding:4px">
+                                {{book.title}}
+                            </td>
+                            <td style="padding:4px">
+                                {{book.author}}
+                            </td>
+                            <td style="padding:4px">
+                                {{book.prologue}}
+                            </td>
+                            <td style="padding:4px">
+                                {{book.category}}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
 
+                    {% if users %}
+                        <table id="users_table" style="display:none;" width="100%" cellpadding="4px" class="table-bordered">
+                            <thead>
+                                <th style="padding:4px;text-align:center;">No</th>
+                                <th style="padding:4px;text-align:center;">First Name</th>
+                                <th style="padding:4px;text-align:center;">Last Name</th>
+                                <th style="padding:4px;text-align:center;">Username</th>
+                                <th style="padding:4px;text-align:center;">Email</th>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td style="padding:4px">
+                                    {{user.id}}
+                                </td>
+                                <td style="padding:4px">
+                                    {{user.first_name}}
+                                </td>
+                                <td style="padding:4px">
+                                    {{user.last_name}}
+                                </td>
+                                <td style="padding:4px">
+                                    {{user.username}}
+                                </td>
+                                <td style="padding:4px">
+                                    {{user.email}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="addbookbox container modal fade" id="addbook-modal">
-        <div style="padding-top:30px" class="panel-body" >
-            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                <form id="signupform" class="form-horizontal" method="POST" role="form">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>Close</button>
-                        <h3 class="modal-title" id="lineModalLabel">Add Book</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div style="margin-bottom: 25px" class="input-group">
-                           <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                           <input type="text" name="title" id="title" class="form-control" placeholder="Book Title">
-                        </div>
-
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input type="text" name="author" id="author" class="form-control" placeholder="Book Author">
-                        </div>
-
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
-                            <select name="category" id="category" class="form-control">
-                                <option>--Select Category--</option>
-                                <option value="Thriller">Thriller</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Crime">Crime</option>
-                                <option value="Romance">Romance</option>
-                                <option value="SciFi">SciFi</option>
-                                <option value="Adventure">Adventure</option>
-                                <option value="Self Help/Motivation">Self Help/Motivation</option>
-                            </select>
-                        </div>
-
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
-                            <input id="text" type="quantity" class="form-control" name="quantity" placeholder="Number of copies e.g 10">
-                        </div>
-
-                        <div style="margin-bottom: 5px" class="form-group">
-                            <label style="margin-left: 25px"><i class="glyphicon glyphicon-pencil"></i>
-                            Book Prologue</label>
-                        </div>
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <textarea type="text" cols="200" rows="5" name="prologue" id="prologue" class="form-control"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer-center">
-                        <div style="margin-top:5px" class="form-group">
-                            <!-- Submit Button -->
-                            <div class="col-xs-3 col-md-3" style="text-align:center;"><button id="Register" name="Register" class="btn btn-primary btn-block btn-lg">Add Book</button></div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
     </div>
     <footer class="text-muted">
         <div class="container center">
@@ -146,25 +155,42 @@
         </div>
     </footer>
     <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/dashboard.js')}}"></script>
     <script>
-        $(function() {
-            $('#add_book').click(function() {
-
-                $.ajax({
-                    url: '/Addbook',
-                    data: $('addbook').serialize(),
-                    type: 'POST',
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
+     $(document).ready(function(){
+            $(function(){
+                $('#addbookbtn').click(function() {
+                form_data = $('#addbookform').serialize();
+                 console.log(form_data);
+                    $.ajax({
+                        url: '{{url_for('auth.addbook')}}',
+                        data: form_data,
+                        type: 'POST',
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
                 });
+             });
+            $("#myBooks").click(function(){
+                $("#books_table").show();
+                $("#users_table").hide();
             });
-        });
+            $("#myUsers").click(function(){
+                $("#users_table").show();
+                $("#books_table").hide();
+            });
+            function Users(){
+                $("#users_table").hide();
+            }
+            $("#addbtn").click(function(){
+                $("#addbookbox").toggle();
+            });
+
+     });
     </script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
   </body>
 </html>
